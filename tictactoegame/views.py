@@ -131,6 +131,7 @@ def entry(request):
 		return render(request, "entry.html", action)
 
 def game(request):
+
 	action = {
 		'stat' : 'Not Connected',
 		'player' : '',
@@ -158,12 +159,12 @@ def game(request):
 		con_p1 = con[0].p1
 		con_p2 = con[0].p2
 		req_key = con_p1.split(",")[1]
-		print("req_key : ",req_key)
+
 		if req_key == 'empty':
 			rcvd_ip = req_key
 		else:
 			rcvd_ip = str(request.META.get(req_key))
-		print("rcvd ip : ",rcvd_ip)
+
 		if con_p1.split(",")[0] == rcvd_ip:
 			resp = con_p2.split(",")[0]
 			player = 'Player 1'
@@ -175,17 +176,13 @@ def game(request):
 		action['player'] = player
 		con_stat = con[0].connected
 		p_turn = str(stat[0].turn)
-		print("p_turn : ",p_turn)
-		print("Player : ",player)
-		print("resp_p : ",resp_p)
+
 		if p_turn == 'null':
-			print("Here 0")
 			status.objects.filter(sess_id = sess[0]).update(turn = str(player))
-		print("p_turn : ",p_turn)
-		print("con_stat : ",con_stat)
+
 		if p_turn == player and con_stat == True:
 			status.objects.filter(sess_id = sess[0]).update(turn = str(resp_p))
-			print("Here")
+
 			action['turn'] = str(stat[0].turn)
 			action['cell_1'] = str(stat[0].cell_1)
 			action['cell_2'] = str(stat[0].cell_2)
@@ -196,7 +193,6 @@ def game(request):
 			action['cell_7'] = str(stat[0].cell_7)
 			action['cell_8'] = str(stat[0].cell_8)
 			action['cell_9'] = str(stat[0].cell_9)
-			print("Here 1")
 			if con_stat == True:
 				action['stat'] = 'Connected'
 				status.objects.filter(sess_id = sess[0]).update(game = True)
@@ -255,7 +251,7 @@ def game(request):
 				else:
 					# will return something to show invalid move msg
 					return render(request, "game.html", action)
-			print("req get : ",request.POST.get())
+
 			if(request.POST.get('4')):
 				if stat[0].cell_4 == '':
 					if player == 'Player 1':
@@ -367,7 +363,6 @@ def game(request):
 		else:
 			print("invalid turn or not connected")
 
-		print("Send")
 		return render(request, "game.html", action)
 		
 	except:
@@ -375,7 +370,9 @@ def game(request):
 		return render(request, "game.html", action)
 	
 def poll(request):
-	poll_dump = {
+    
+    print("Polling")
+    poll_dump = {
 		'stat' : 'Not Connected',
 		'player' : '',
 		'sid' : 0,
@@ -393,70 +390,69 @@ def poll(request):
 		'turn':'',
 		'reset': False,
 	}
-	req_dump = request.GET
-	dump = req_dump.dict()
-	if dump:
-		if dump['sid']:
-			sid = dump['sid']
-			poll_dump['sid'] = sid
-			sess = session.objects.filter(sess_id = str(sid))
-			if not sess: 
-				poll_dump['game_state'] = str('ac')
-				return JsonResponse(poll_dump)
-
-			con = connection.objects.filter(sess_id = sess[0])
-			stat = status.objects.filter(sess_id = sess[0])
-			player = ''
-			con_p1 = con[0].p1
-			con_p2 = con[0].p2
-			req_key = con_p1.split(",")[1]
-			if req_key == 'empty':
-				rcvd_ip = req_key
-			else:
-				rcvd_ip = str(request.META.get(req_key))
-			
-			if con_p1.split(",")[0] == rcvd_ip:
-				resp = con_p2.split(",")[0]
-				player = 'Player 1'
-			else:
-				resp = con_p1.split(",")[0]
-				player = 'Player 2'
-			
-			poll_dump['player'] = player
-			con_stat = con[0].connected
-			poll_dump['cell_1'] = str(stat[0].cell_1)
-			poll_dump['cell_2'] = str(stat[0].cell_2)
-			poll_dump['cell_3'] = str(stat[0].cell_3)
-			poll_dump['cell_4'] = str(stat[0].cell_4)
-			poll_dump['cell_5'] = str(stat[0].cell_5)
-			poll_dump['cell_6'] = str(stat[0].cell_6)
-			poll_dump['cell_7'] = str(stat[0].cell_7)
-			poll_dump['cell_8'] = str(stat[0].cell_8)
-			poll_dump['cell_9'] = str(stat[0].cell_9)
-			poll_dump['turn'] = str(stat[0].turn)
-			poll_dump['game_state'] = str(stat[0].game_state)
-			poll_dump['reset'] = str(con[0].reset)
-			
-			if con_stat == True:
-				poll_dump['stat'] = 'Connected'
-			else:
-				poll_dump['stat'] = 'Not Connected'
-			
-			poll_dump['req_stat'] = True
-			if player == 'Player 2':
-				if poll_dump['reset'] == True:
-					connection.objects.filter(sess_id = sess[0]).update(reset = False)
-					return redirect('/game/')
-
-			return JsonResponse(poll_dump)
-		
-		else:
-			print("request failed")
-			return JsonResponse(poll_dump)
-	
-	else:
-		print("page closed")
-		return JsonResponse(poll_dump)
+    req_dump = request.GET
+    dump = req_dump.dict()
+    if dump:
+        if dump['sid']:
+            sid = dump['sid']
+            poll_dump['sid'] = sid
+            sess = session.objects.filter(sess_id = str(sid))
+            if not sess: 
+                poll_dump['game_state'] = str('ac')
+                return JsonResponse(poll_dump)
+            
+            con = connection.objects.filter(sess_id = sess[0])
+            stat = status.objects.filter(sess_id = sess[0])
+            player = ''
+            con_p1 = con[0].p1
+            con_p2 = con[0].p2
+            req_key = con_p1.split(",")[1]
+            if req_key == 'empty':
+                rcvd_ip = req_key
+            else:
+                rcvd_ip = str(request.META.get(req_key))
+            
+            if con_p1.split(",")[0] == rcvd_ip:
+                resp = con_p2.split(",")[0]
+                player = 'Player 1'
+            else:
+                resp = con_p1.split(",")[0]
+                player = 'Player 2'
+            
+            poll_dump['player'] = player
+            con_stat = con[0].connected
+            poll_dump['cell_1'] = str(stat[0].cell_1)
+            poll_dump['cell_2'] = str(stat[0].cell_2)
+            poll_dump['cell_3'] = str(stat[0].cell_3)
+            poll_dump['cell_4'] = str(stat[0].cell_4)
+            poll_dump['cell_5'] = str(stat[0].cell_5)
+            poll_dump['cell_6'] = str(stat[0].cell_6)
+            poll_dump['cell_7'] = str(stat[0].cell_7)
+            poll_dump['cell_8'] = str(stat[0].cell_8)
+            poll_dump['cell_9'] = str(stat[0].cell_9)
+            poll_dump['turn'] = str(stat[0].turn)
+            poll_dump['game_state'] = str(stat[0].game_state)
+            poll_dump['reset'] = str(con[0].reset)
+            
+            if con_stat == True:
+                poll_dump['stat'] = 'Connected'
+            else:
+                poll_dump['stat'] = 'Not Connected'
+            
+            poll_dump['req_stat'] = True
+            if player == 'Player 2':
+                if poll_dump['reset'] == True:
+                    connection.objects.filter(sess_id = sess[0]).update(reset = False)
+                    return redirect('/game/')
+                
+            return JsonResponse(poll_dump)
+        
+        else:
+            print("request failed")
+            return JsonResponse(poll_dump)
+    else:
+        print("page closed")
+        return JsonResponse(poll_dump)
 		
 		
 def clear(request):

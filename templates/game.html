@@ -17,6 +17,7 @@
 				data: {sid :"{{sid}}"},
 				dataType: 'json',
 				success: function (data) {
+					console.log("Received");
 					$("#constat").text(data.stat);
 					$("#cell_1").val(data.cell_1);
 					$("#cell_2").val(data.cell_2);
@@ -96,6 +97,7 @@
 					}
 				},
 			});
+			console.log("Here");
 		};
 		poll();
 		setInterval(function(){
