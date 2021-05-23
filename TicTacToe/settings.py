@@ -27,11 +27,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-e(=r$k1k(xm)aco-)sh6*iso0&@eg0*sz(wptd4rqe#@5793ni'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if socket.gethostname() == 'DESKTOP-HU3LBI7':
-    DEBUG = True
-else:
-    DEBUG = False
 
+DEBUG = True
+    
 ALLOWED_HOSTS = ['*']
 
 
