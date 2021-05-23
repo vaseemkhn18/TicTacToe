@@ -32,5 +32,5 @@ class status(models.Model):
 	cell_9 = models.CharField(max_length=1)
 	game = models.BooleanField(default = False)
 	game_state = models.CharField(max_length=5, default = "null" )
-	turn = models.CharField(max_length=5, default = "null" )
+	turn = models.CharField(max_length=10, default = "null" )
 	

@@ -176,7 +176,10 @@ def game(request):
 		con_stat = con[0].connected
 		p_turn = str(stat[0].turn)
 		print("p_turn : ",p_turn)
+		print("Player : ",player)
+		print("resp_p : ",resp_p)
 		if p_turn == 'null':
+			print("Here 0")
 			status.objects.filter(sess_id = sess[0]).update(turn = str(player))
 		print("p_turn : ",p_turn)
 		print("con_stat : ",con_stat)
@@ -369,6 +372,7 @@ def game(request):
 		
 	except:
 		print("Game Fail")
+		return render(request, "game.html", action)
 	
 def poll(request):
 	poll_dump = {
