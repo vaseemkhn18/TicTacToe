@@ -175,11 +175,14 @@ def game(request):
 		action['player'] = player
 		con_stat = con[0].connected
 		p_turn = str(stat[0].turn)
-		print("rcvd ip : ",p_turn)
+		print("p_turn : ",p_turn)
 		if p_turn == 'null':
 			status.objects.filter(sess_id = sess[0]).update(turn = str(player))
+		print("p_turn : ",p_turn)
+		print("con_stat : ",con_stat)
 		if p_turn == player and con_stat == True:
 			status.objects.filter(sess_id = sess[0]).update(turn = str(resp_p))
+			print("Here")
 			action['turn'] = str(stat[0].turn)
 			action['cell_1'] = str(stat[0].cell_1)
 			action['cell_2'] = str(stat[0].cell_2)
@@ -190,6 +193,7 @@ def game(request):
 			action['cell_7'] = str(stat[0].cell_7)
 			action['cell_8'] = str(stat[0].cell_8)
 			action['cell_9'] = str(stat[0].cell_9)
+			print("Here 1")
 			if con_stat == True:
 				action['stat'] = 'Connected'
 				status.objects.filter(sess_id = sess[0]).update(game = True)
@@ -248,7 +252,7 @@ def game(request):
 				else:
 					# will return something to show invalid move msg
 					return render(request, "game.html", action)
-					
+			print("req get : ",request.POST.get())
 			if(request.POST.get('4')):
 				if stat[0].cell_4 == '':
 					if player == 'Player 1':
@@ -360,6 +364,7 @@ def game(request):
 		else:
 			print("invalid turn or not connected")
 
+		print("Send")
 		return render(request, "game.html", action)
 		
 	except:
