@@ -1,0 +1,191 @@
+{% load static %}
+
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="stylesheet" href="{% static 'css\style.css'%}" />
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script>
+	(function() {
+		var poll = function(){
+			$.ajax({
+				url: '/poll/',
+				type: 'get',
+				data: {sid :"{{sid}}"},
+				dataType: 'json',
+				success: function (data) {
+					$("#constat").text(data.stat);
+					$("#cell_1").val(data.cell_1);
+					$("#cell_2").val(data.cell_2);
+					$("#cell_3").val(data.cell_3);
+					$("#cell_4").val(data.cell_4);
+					$("#cell_5").val(data.cell_5);
+					$("#cell_6").val(data.cell_6);
+					$("#cell_7").val(data.cell_7);
+					$("#cell_8").val(data.cell_8);
+					$("#cell_9").val(data.cell_9);
+					$("#turn").text(data.turn);
+					if ((data.game_state) == 'p1') {
+						console.log(data.p1_win);
+						alert("Player 1 : Win!!!!!\nPlayer 2 : Lose");
+						again = confirm("Play Again!!!!!");
+						if (again) {
+							console.log(again);
+							$.ajax({
+								url: '/reset/',
+								type: 'get',
+							});
+						}
+						else {
+							$.ajax({
+								url: '/clear/',
+								type: 'get',
+								data: {sid :"{{sid}}"},
+								dataType: 'json',
+							});
+						}
+					}
+					if ((data.game_state) == 'p2') {
+						console.log(data.p2_win);
+						alert("Player 2 : Win!!!!!\nPlayer 1 : Lose");
+						again = confirm("Play Again!!!!!");
+						if (again) {
+							console.log(again);
+							$.ajax({
+								url: '/reset/',
+								type: 'get',
+							});
+						}
+						else {
+							$.ajax({
+								url: '/clear/',
+								type: 'get',
+								data: {sid :"{{sid}}"},
+								dataType: 'json',
+							});
+						}
+					}
+					if ((data.game_state) == 'ov') {
+						console.log(data.p2_win);
+						alert("GAME DRAW!!!!\nPlayer 1 : LOSE\nPlayer 2 : LOSE");
+						again = confirm("Play Again!!!!!");
+						if (again) {
+							console.log(again);
+							$.ajax({
+								url: '/reset/',
+								type: 'get',
+							});
+						}
+						else {
+							$.ajax({
+								url: '/clear/',
+								type: 'get',
+								data: {sid :"{{sid}}"},
+								dataType: 'json',
+							});
+						}
+					}
+					if ((data.game_state) == 'cl') {
+						alert("Thanks for playing!!!!!!\nGoodByeee....");
+					}
+					if ((data.game_state) == 'ac') {
+						alert("Your Opponent already closed the game\nGoodbyeee!!!!");
+					}
+				},
+			});
+		};
+		poll();
+		setInterval(function(){
+				poll();
+			},1000);
+		})();
+
+	</script>
+</head>
+<title>TIC TAC TOE</title>
+<body>
+	<div class="template">
+		<h1 class="title">TIC TAC TOE</h1>
+	<div class="code">Unique code: {{sid}}
+	</div>
+	<div class="actions">
+		<div class="status" id="constat-nm">Status:</div>
+		<div class="status" id="constat">{{stat}}</div>
+		<div class="status" id="plyr-nm">Player:</div>
+		<div class="status" id="plyr">{{player}}</div>
+		<div class="status" id="turn-nm">Turn:</div>
+		<div class="status" id="turn">{{turn}}</div>
+	</div>
+	<div class="grid" id="table">
+		<div class="cells" id ="1">
+			<form method="POST" id="f_cell"> {%csrf_token%}
+				<input type="submit" class="button" id="cell_1" value="{{cell_1}}">
+				<input type="hidden" name="1" value="1">
+				<input type="hidden" name="sid" value="{{sid}}">
+			</form>
+		</div>
+		<div class="cells" id="2">
+			<form method="POST" id="f_cell"> {%csrf_token%}
+				<input type="submit" class="button" id="cell_2" value="{{cell_2}}">
+				<input type="hidden" name="2" value="2">
+				<input type="hidden" name="sid" value="{{sid}}">
+			</form>
+		</div>
+		<div class="cells" id="3">
+			<form method="POST" id="f_cell"> {%csrf_token%}
+				<input type="submit" class="button" id="cell_3" value="{{cell_3}}">
+				<input type="hidden" name="3" value="3">
+				<input type="hidden" name="sid" value="{{sid}}">			
+			</form>
+		</div>
+		<div class="cells" id="4">
+			<form method="POST" id="f_cell"> {%csrf_token%}
+				<input type="submit" class="button" id="cell_4" value="{{cell_4}}">
+				<input type="hidden" name="4" value="4">
+				<input type="hidden" name="sid" value="{{sid}}">
+			</form>
+		</div>
+		<div class="cells" id="5">
+			<form method="POST" id="f_cell"> {%csrf_token%}
+				<input type="submit" class="button" id="cell_5" value="{{cell_5}}">
+				<input type="hidden" name="5" value="5">
+				<input type="hidden" name="sid" value="{{sid}}">
+			</form>
+		</div>
+		<div class="cells" id="6">
+			<form method="POST" id="f_cell"> {%csrf_token%}
+				<input type="submit" class="button" id="cell_6" value="{{cell_6}}">
+				<input type="hidden" name="6" value="6">
+				<input type="hidden" name="sid" value="{{sid}}">
+			</form>
+		</div>
+		<div class="cells" id="7">
+			<form method="POST" id="f_cell"> {%csrf_token%}
+				<input type="submit" class="button" id="cell_7" value="{{cell_7}}">
+				<input type="hidden" name="7" value="7">
+				<input type="hidden" name="sid" value="{{sid}}">
+			</form>
+		</div>
+		<div class="cells" id="8">
+			<form method="POST" id="f_cell"> {%csrf_token%}
+				<input type="submit" class="button" id="cell_8" value="{{cell_8}}">
+				<input type="hidden" name="8" value="8">
+				<input type="hidden" name="sid" value="{{sid}}">
+			</form>
+		</div>
+		<div class="cells" id="9">
+			<form method="POST" id="f_cell"> {%csrf_token%}
+				<input type="submit" class="button" id="cell_9" value="{{cell_9}}">
+				<input type="hidden" name="9" value="9">
+				<input type="hidden" name="sid" value="{{sid}}">
+			</form>
+		</div>
+	</div>
+	<script>
+		
+	</script>
+</body>
+</html>

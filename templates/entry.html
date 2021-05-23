@@ -1,0 +1,58 @@
+{% load static %}
+
+<!doctype html>
+<html>
+	<head>
+		<script>
+			 $(window).load(function()
+			 {        
+				$('#modal').modal('show');
+			}); 
+		</script>
+		<link rel="stylesheet" href="{% static 'css\modal.css' %}" />
+	</head>
+<body>
+	<div id="modal" class="modal active" role="dialog">
+	<div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Tic Tac Toe</h4>
+		<button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+	  {% if entry %}
+        <form method = "POST" class = "form"> {%csrf_token%}
+			<div class = "input">
+				<label for="fname">Player Name</label>
+				<input type="text" id="fname" name="fname"><br>
+			</div>
+			<div class="form-btn">
+				<input type="submit" class="button_m" name="new" value = "New Game">
+				<input type="submit" class="button_m" name="join" value = "Join Game">
+			</div>	
+		</form>
+		{% elif new_game %}
+		<div class = "ng_1">
+			<h1 class= "gsid">Game Id: {{sid}}<h1>
+		</div>
+		{% elif join_game %}
+		<form method = "POST" class = "form2"> {%csrf_token%}
+			<div class = "jg_1">
+				<h4 class = "enter_sid">Please Enter Game Id of the game you want to Join</h4>
+				<label for="jsid" class="jsid">Game Id</label>
+				<input type="text" id="jsid" name="jsid" class="jsid"><br>
+			</div>
+			<div class ="con_game">
+				<input type="submit" class="con_btn" name="con_game" value = "connect">
+			</div>
+		</form>
+		{% endif %}
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="active"id="overlay"></div>
+</body>
+</html>

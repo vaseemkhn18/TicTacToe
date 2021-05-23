@@ -1,0 +1,72 @@
+*, *::after, *::before{
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+.modal{
+	position: fixed;
+	top:50%;
+	left: 50%;
+	width: 300px;
+	height: 200px;
+	max-width: 80%;
+	transform: translate(-50%, -50%);
+	background-color: #ffffff;
+	z-index: 10;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.form-btn{
+	padding : 25px;
+	display: flex;
+	justify-content: space-around;
+}
+
+.input{
+	display: flex;
+	justify-content: space-around;
+}
+
+.modal-body{
+	padding: 10px;
+}
+
+.modal-header{
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	display: flex;
+	justify-content: space-between;
+	padding: 10px;
+}
+
+.modal-header .modal-title{
+	font-size: 25px;
+}
+
+.modal-header .close{
+	background: none;
+	outline: none;
+	border: none;
+	cursor: pointer;
+	font-size: 20px;
+}
+
+#overlay{
+	position: fixed;
+	/*opacity: 0; */
+	top:0;
+	right:0;
+	left:0;
+	bottom:0;
+	background-color: rgba(0,0,0,.5);
+}
+
+#overlay.active{
+	
+}
+
+.jsid{
+	margin-top: 10px;
+}
