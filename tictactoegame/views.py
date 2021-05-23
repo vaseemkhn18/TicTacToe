@@ -158,10 +158,12 @@ def game(request):
 		con_p1 = con[0].p1
 		con_p2 = con[0].p2
 		req_key = con_p1.split(",")[1]
+		print("req_key : ",req_key)
 		if req_key == 'empty':
 			rcvd_ip = req_key
 		else:
 			rcvd_ip = str(request.META.get(req_key))
+		print("rcvd ip : ",rcvd_ip)
 		if con_p1.split(",")[0] == rcvd_ip:
 			resp = con_p2.split(",")[0]
 			player = 'Player 1'
@@ -173,7 +175,8 @@ def game(request):
 		action['player'] = player
 		con_stat = con[0].connected
 		p_turn = str(stat[0].turn)
-		if p_turn == '0':
+		print("rcvd ip : ",p_turn)
+		if p_turn == 'null':
 			status.objects.filter(sess_id = sess[0]).update(turn = str(player))
 		if p_turn == player and con_stat == True:
 			status.objects.filter(sess_id = sess[0]).update(turn = str(resp_p))
@@ -540,8 +543,8 @@ def reset(request):
     status.objects.filter(sess_id = sess2[0]).update(cell_8 = '')
     status.objects.filter(sess_id = sess2[0]).update(cell_9 = '')
     status.objects.filter(sess_id = sess2[0]).update(game = True)
-    status.objects.filter(sess_id = sess2[0]).update(game_state = '0')
-    status.objects.filter(sess_id = sess2[0]).update(turn = '0')
+    status.objects.filter(sess_id = sess2[0]).update(game_state = 'null')
+    status.objects.filter(sess_id = sess2[0]).update(turn = 'null')
     connection.objects.filter(sess_id = sess2[0]).update(reset = True)
     
     return redirect('/game/')
