@@ -173,7 +173,7 @@ def game(request):
 		action['player'] = player
 		con_stat = con[0].connected
 		p_turn = str(stat[0].turn)
-		if p_turn == 'null':
+		if p_turn == '0':
 			status.objects.filter(sess_id = sess[0]).update(turn = str(player))
 		if p_turn == player and con_stat == True:
 			status.objects.filter(sess_id = sess[0]).update(turn = str(resp_p))
@@ -540,8 +540,8 @@ def reset(request):
     status.objects.filter(sess_id = sess2[0]).update(cell_8 = '')
     status.objects.filter(sess_id = sess2[0]).update(cell_9 = '')
     status.objects.filter(sess_id = sess2[0]).update(game = True)
-    status.objects.filter(sess_id = sess2[0]).update(game_state = 'null')
-    status.objects.filter(sess_id = sess2[0]).update(turn = 'null')
+    status.objects.filter(sess_id = sess2[0]).update(game_state = '0')
+    status.objects.filter(sess_id = sess2[0]).update(turn = '0')
     connection.objects.filter(sess_id = sess2[0]).update(reset = True)
     
     return redirect('/game/')

@@ -11,8 +11,8 @@ class session(models.Model):
 		
 class connection(models.Model):
 	sess_id = models.ForeignKey(session, on_delete=models.CASCADE)
-	p1 = models.CharField(max_length=100)
-	p2 = models.CharField(max_length=100)
+	p1 = models.CharField(max_length=200)
+	p2 = models.CharField(max_length=200)
 	connected = models.BooleanField(default = False)
 	p1_nm = models.CharField(max_length=20, default = "null" )
 	p2_nm = models.CharField(max_length=20, default = "null" )
