@@ -54,6 +54,7 @@ def entry(request):
 		'no_sesid' : False,
 		'inv_sesid' : False,
 		'gexist' : False,
+		'no_game' : False,
 		'sid' : 0,
 	}
 	if(request.POST.get('new')):
@@ -97,7 +98,7 @@ def entry(request):
 			if not connection.objects.filter(connected = False).exists():
 				# will send some parameter to show no game exists to join msg
 				action['join_game'] = True
-				action['gexist'] = True
+				action['no_game'] = True
 				action['sid'] = 123
 				return render(request, "entry.html", action)
 			else:
@@ -123,6 +124,7 @@ def entry(request):
 				return render(request, "entry.html", action)
 			elif connection.objects.filter(sess_id = sess[0])[0].connected:
 				action['join_game'] = True
+				action['gexist'] = True
 				action['sid'] = 123
 				return render(request, "entry.html", action)
 			else:
@@ -380,7 +382,6 @@ def game(request):
 	
 def poll(request):
     
-    print("Polling")
     poll_dump = {
 		'stat' : 'Not Connected',
 		'player' : '',

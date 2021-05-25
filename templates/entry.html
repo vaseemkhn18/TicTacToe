@@ -42,12 +42,12 @@
 		{% elif join_game %}
 		{% if no_sesid %}
 			<script>alert("Please enter your Unique id.. \nPlease ask other player to give you Unique id..");</script>
-		{% endif %}
-		{% if inv_sesid %}
+		{% elif inv_sesid %}
 			<script>alert("Invalid Session id ...");</script>
-		{% endif %}
-		{% if gexist %}
+		{% elif gexist %}
 			<script>alert("Game Already in Progress ...");</script>
+		{% elif no_game %}
+			<script>alert("No game available to join ...");</script>
 		{% endif %}
 		<form method = "POST" class = "form2"> {%csrf_token%}
 			<div class = "jg_1">
