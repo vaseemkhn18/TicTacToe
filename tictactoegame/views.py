@@ -50,12 +50,17 @@ def entry(request):
 		'entry' : False,
 		'new_game' : False,
 		'join_game' : False,
+		'no_name' : False,
+		'no_sesid' : False,
+		'inv_sesid' : False,
+		'gexist' : False,
 		'sid' : 0,
 	}
 	if(request.POST.get('new')):
 		if not request.POST.get('fname'):
 			# will send some parameter to show enter name msg
-			action['new_game'] = True
+			action['no_name'] = True
+			action['entry'] = True
 			action['sid'] = 123
 			return render(request, "entry.html", action)
 		else:	
@@ -84,13 +89,15 @@ def entry(request):
 	elif(request.POST.get('join')):
 		if not request.POST.get('fname'):
 			# will send some parameter to show enter name msg
-			action['join_game'] = True
+			action['entry'] = True
+			action['no_name'] = True
 			action['sid'] = 123
 			return render(request, "entry.html", action)
 		else:
 			if not connection.objects.filter(connected = False).exists():
 				# will send some parameter to show no game exists to join msg
 				action['join_game'] = True
+				action['gexist'] = True
 				action['sid'] = 123
 				return render(request, "entry.html", action)
 			else:
@@ -103,6 +110,7 @@ def entry(request):
 		if not request.POST.get('jsid'):
 			# will send some parameter to show enter sesson id msg
 			action['join_game'] = True
+			action['no_sesid'] = True
 			action['sid'] = 123
 			return render(request, "entry.html", action)
 		else:
@@ -110,6 +118,7 @@ def entry(request):
 			if not session.objects.filter(sess_id = str(request.POST.get('jsid'))).exists():
 				# will send some parameter to show invalid sesson id msg
 				action['join_game'] = True
+				action['inv_sesid'] = True
 				action['sid'] = 123
 				return render(request, "entry.html", action)
 			elif connection.objects.filter(sess_id = sess[0])[0].connected:

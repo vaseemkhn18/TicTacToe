@@ -22,6 +22,9 @@
       </div>
       <div class="modal-body">
 	  {% if entry %}
+		{% if no_name %}
+			<script>alert("Please enter your Name..");</script>
+		{% endif %}
         <form method = "POST" class = "form"> {%csrf_token%}
 			<div class = "input">
 				<label for="fname">Player Name</label>
@@ -37,6 +40,15 @@
 			<h1 class= "gsid">Game Id: {{sid}}<h1>
 		</div>
 		{% elif join_game %}
+		{% if no_sesid %}
+			<script>alert("Please enter your Unique id.. \nPlease ask other player to give you Unique id..");</script>
+		{% endif %}
+		{% if inv_sesid %}
+			<script>alert("Invalid Session id ...");</script>
+		{% endif %}
+		{% if gexist %}
+			<script>alert("Game Already in Progress ...");</script>
+		{% endif %}
 		<form method = "POST" class = "form2"> {%csrf_token%}
 			<div class = "jg_1">
 				<h4 class = "enter_sid">Please Enter Game Id of the game you want to Join</h4>

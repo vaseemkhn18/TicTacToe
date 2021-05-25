@@ -17,7 +17,6 @@
 				data: {sid :"{{sid}}"},
 				dataType: 'json',
 				success: function (data) {
-					console.log("Received");
 					$("#constat").text(data.stat);
 					$("#cell_1").val(data.cell_1);
 					$("#cell_2").val(data.cell_2);
@@ -30,7 +29,6 @@
 					$("#cell_9").val(data.cell_9);
 					$("#turn").text(data.turn);
 					if ((data.game_state) == 'p1') {
-						console.log(data.p1_win);
 						alert("Player 1 : Win!!!!!\nPlayer 2 : Lose");
 						again = confirm("Play Again!!!!!");
 						if (again) {
@@ -50,7 +48,6 @@
 						}
 					}
 					if ((data.game_state) == 'p2') {
-						console.log(data.p2_win);
 						alert("Player 2 : Win!!!!!\nPlayer 1 : Lose");
 						again = confirm("Play Again!!!!!");
 						if (again) {
@@ -70,7 +67,6 @@
 						}
 					}
 					if ((data.game_state) == 'ov') {
-						console.log(data.p2_win);
 						alert("GAME DRAW!!!!\nPlayer 1 : LOSE\nPlayer 2 : LOSE");
 						again = confirm("Play Again!!!!!");
 						if (again) {
@@ -97,12 +93,11 @@
 					}
 				},
 			});
-			console.log("Here");
 		};
 		poll();
 		setInterval(function(){
 				poll();
-			},1000);
+			},100);
 		})();
 
 	</script>
